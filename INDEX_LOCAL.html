@@ -63,7 +63,7 @@
                     <span class="info-icon fa-solid fa-circle-info" data-popup="variable-popup"></span>
                 </div>
                 <div class="card-content">
-                    <p><span id="variable_cambiante">Próximamente</span></p>
+                    <p><span id="gasolina">Próximamente</span></p>
                 </div>
             </div>
 
@@ -75,7 +75,7 @@
                     <span class="info-icon fa-solid fa-circle-info" data-popup="variable-popup"></span>
                 </div>
                 <div class="card-content">
-                    <p><span id="variable_cambiante">Próximamente</span></p>
+                    <p><span id="Velocidad">Próximamente</span></p>
                 </div>
             </div>
 
@@ -124,7 +124,7 @@
     <script src="speedometer.js"></script>
     <script>
         async function getConfig() {
-            const response = await fetch('/api/config');
+            const response = await fetch('http://localhost:3000/api/config'); // <-- CÁMBIALO A LA URL COMPLETA DE TU API
             if (!response.ok) throw new Error("Error al obtener la configuración");
             const config = await response.json();
             return config;
@@ -157,7 +157,7 @@
 
         async function obtenerCoordenadasDesdeAPI() {
             try {
-                const respuesta = await fetch('/api/coordenadas');
+                const respuesta = await fetch('http://localhost:3000/coordenadas'); // <-- CÁMBIALO A LA URL COMPLETA DE TU API
                 if (!respuesta.ok) {
                     throw new Error('Error al obtener datos de la API');
                 }

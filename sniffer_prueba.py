@@ -24,15 +24,15 @@ def conectar_bd():
         return None
 
 # Inserta las coordenadas en la base de datos (sin IP)
-def insertar_coordenadas(lat, lon, estampa, variable_cambiante):
+def insertar_coordenadas(lat, lon, estampa, velocidad, gasolina):
     conexion = conectar_bd()
     if conexion:
         try:
             with conexion.cursor() as cursor:
-                sql = "INSERT INTO coordenadas (latitud, longitud, timestamp, variable_cambiante) VALUES (%s, %s, %s, %s)"
-                cursor.execute(sql, (lat, lon, estampa, variable_cambiante))
+                sql = "INSERT INTO coordenadas (latitud, longitud, timestamp, velocidad, gasolina) VALUES (%s, %s, %s, %s, %s)"
+                cursor.execute(sql, (lat, lon, estampa, velocidad, gasolina))
                 conexion.commit()
-                print(f"✅ Datos insertados: {lat}, {lon}, {estampa}, {variable_cambiante}")
+                print(f"✅ Datos insertados: {lat}, {lon}, {estampa}, {velocidad},{gasolina}")
         except pymysql.MySQLError as e:
             print(f"❌ Error al insertar en la base de datos: {e}")
         finally:
@@ -58,14 +58,15 @@ def sniffer():
                 print(f"🔗 Paquete recibido de {direccion[0]}: {datos.decode('utf-8')}")
 
                 try:
-                    # Extraer lat, lon, estampa y variable_cambiante del paquete
-                    lat, lon, estampa, variable_cambiante = datos.decode('utf-8').strip().split(',')
+                    # Extraer lat, lon, estampa,velocidad, gasolina del paquete
+                    lat, lon, estampa, velocidad, gasolina = datos.decode('utf-8').strip().split(',')
                     lat = float(lat)
                     lon = float(lon)
-                    variable_cambiante = float(variable_cambiante)  # Convertir a float
+                    velocidad = float(velocidad) 
+                    gasolina = float(gasolina) # Convertir a float
 
                     # Inserta los datos en la base de datos
-                    insertar_coordenadas(lat, lon, estampa, variable_cambiante)
+                    insertar_coordenadas(lat, lon, estampa, velocidad, gasolina)
                 except Exception as e:
                     print(f"❌ Error procesando datos: {e}")
 

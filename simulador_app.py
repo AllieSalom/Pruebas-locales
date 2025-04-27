@@ -16,10 +16,17 @@ try:
         lat = round(random.uniform(-90.0, 90.0), 6)
         lon = round(random.uniform(-180.0, 180.0), 6)
         estampa = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
-        variable = random.randint(1, 100)
+        velocidad= random.randint(1, 100)
+        gasolina = random.randint(1, 100)
+
 
         # Crear paquete como string
-        mensaje = f"{lat},{lon},{estampa},{variable}"
+        mensaje = f"{lat},{lon},{estampa},{velocidad},{gasolina}"
+
+        # --- LÍNEA DE DEBUG ---
+        print(f"DEBUG: Mensaje crudo generado: '{mensaje}'")
+# --------------------
+
 
         # Enviar paquete al sniffer
         cliente.sendto(mensaje.encode('utf-8'), (IP_SNIFER, PUERTO))
