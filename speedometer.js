@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateSpeedometer(percent) {
         const angle = percent * 1.8;
         needle.setAttribute("transform", `rotate(${angle}, 100, 100)`);
-        percentText.textContent = `${percent}%`;
+        percentText.textContent = `${percent}km/h`;
     }
     
     let currentPercent = 0;
