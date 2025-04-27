@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Arco de fondo gris claro
             const backgroundArc = document.createElementNS(svgNS, "path");
             backgroundArc.setAttribute("d", "M 20 100 A 80 80 0 0 1 180 100"); // Arco de 180 grados
-            backgroundArc.setAttribute("stroke", "#e0e0e0"); // Color gris claro
+            backgroundArc.setAttribute("stroke", "#ffffff"); // Color gris claro
             backgroundArc.setAttribute("stroke-width", "8"); // Grosor de línea
             backgroundArc.setAttribute("fill", "none"); // Sin relleno
             svg.appendChild(backgroundArc);
@@ -156,29 +156,32 @@ document.addEventListener('DOMContentLoaded', function() {
             // --- Añadir estilos CSS dinámicamente ---
             // Verifica si los estilos ya existen (para no duplicarlos si se carga más de un script similar)
              if (!document.querySelector('style[data-speedometer-styles]')) {
-                 const styles = document.createElement('style');
-                  styles.setAttribute('data-speedometer-styles', ''); // Marca para identificar
-                 styles.innerHTML = `
-                     .speedometer-container {
-                         position: relative;
-                         width: 200px;
-                         height: 120px; /* Altura para el semicírculo */
-                         margin: 0 auto;
-                         text-align: center;
-                        fill: #ffffff;
-                     }
-                     .speedometer-tick-label, .speedometer-value-text {
-                         fill: #ffffff; /* Color del texto de ticks y valor */
-                         font-family: monospace;
-                     }
-                      .speedometer-value-text {
-                          font-size: 16px;
-                          font-weight: bold;
-                         fill: white; /* <--- AÑADIMOS ESTA LÍNEA para asegurarnos de que el VALOR sea blanco */
-                         fill: #ffffff;
-                      }
-                 `;
-                 document.head.appendChild(styles);
+                    const styles = document.createElement('style');
+        styles.setAttribute('data-speedometer-styles', '');
+        styles.innerHTML = `
+            .speedometer-container {
+                position: relative;
+                width: 200px;
+                height: 120px; /* Altura para el semicírculo */
+                margin: 0 auto;
+                text-align: center;
+                fill: #ffffff;
+            }
+            .speedometer-tick-label {
+                fill: #ffffff;
+                color: #ffffff;
+                font-family: monospace;
+                font-size: 10px;
+            }
+            .speedometer-value-text {
+                fill: #ffffff;
+                color: #ffffff;
+                font-family: monospace;
+                font-size: 16px;
+                font-weight: bold;
+            }
+        `;
+        document.head.appendChild(styles);
              }
     
     
