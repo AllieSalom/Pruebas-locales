@@ -116,19 +116,17 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
     
-            // Aguja del velocímetro
-            const needle = document.createElementNS(svgNS, "line");
-            needle.setAttribute("x1", "100"); // Origen en el centro
-            needle.setAttribute("y1", "100");
-            needle.setAttribute("x2", "20"); // Punto final (inicialmente apuntando a 0 en el velocímetro, que es 180deg SVG)
-            needle.setAttribute("y2", "100");
-            needle.setAttribute("stroke", "#D32F2F"); // Color rojo oscuro
-            needle.setAttribute("stroke-width", "2");
-            // La rotación se aplicará dinámicamente
-            // La aguja debe empezar apuntando a 0km/h, que es 180 grados en nuestro arco visual.
-            // La aguja SVG por defecto apunta a 0 grados (derecha). Para apuntar a 180 grados, necesita una rotación de 180.
-            needle.setAttribute("transform", `rotate(180, 100, 100)`); // Posición inicial a 0 km/h
-            svg.appendChild(needle);
+             // --- Aguja del velocímetro ---
+            const needle = document.createElementNS(svgNS, "line");
+            needle.setAttribute("x1", "100"); // Origen en el centro
+            needle.setAttribute("y1", "100");
+            needle.setAttribute("x2", "20"); // Punto final (inicialmente apuntando a la izquierda)
+            needle.setAttribute("y2", "100");
+            needle.setAttribute("stroke", "#D32F2F"); // Color rojo oscuro
+            needle.setAttribute("stroke-width", "2");
+            // Elimina la transformación inicial
+            // needle.setAttribute("transform", `rotate(180, 100, 100)`);
+            svg.appendChild(needle);
     
             // Círculo central para la aguja
             const needleCenter = document.createElementNS(svgNS, "circle");
@@ -187,26 +185,20 @@ document.addEventListener('DOMContentLoaded', function() {
     
             // --- Función para actualizar la apariencia visual del velocímetro ---
             // Esta función recibe el valor de velocidad (espera un número)
-            function updateSpeedometer(speedValue) {
-                // Asegurarse de que el valor sea un número antes de usarlo
-                if (typeof speedValue !== 'number' || isNaN(speedValue)) {
-                    console.error("updateSpeedometer received a non-numeric value:", speedValue);
-                    speedValue = 0; // Usar 0 si el valor no es válido
-                }
-    
-                // Asegurarse de que el valor esté en el rango visual que muestra el velocímetro (0 a maxSpeedometerValue)
-                const clampedSpeed = Math.max(0, Math.min(maxSpeedometerValue, speedValue));
-    
-                // Calcular el ángulo de la aguja
-                // Mapea el valor de velocidad (0 a maxSpeedometerValue) al rango de ángulo (0 a 180 grados)
-                // Un valor de 0 km/h debe estar en 180 grados SVG. Un valor de 100 km/h debe estar en 0 grados SVG.
-                // La rotación es (180 - el ángulo calculado).
-                const angle = (clampedSpeed / maxSpeedometerValue) * angleRange;
-                needle.setAttribute("transform", `rotate(${180 - angle}, 100, 100)`);
-    
-                // Actualizar el texto de velocidad mostrado
-                speedValueText.textContent = `${Math.round(clampedSpeed)} km/h`;
-            }
+       function updateSpeedometer(speedValue) {
+        if (typeof speedValue !== 'number' || isNaN(speedValue)) {
+            console.error("updateSpeedometer received a non-numeric value:", speedValue);
+            speedValue = 0;
+        }
+        const clampedSpeed = Math.max(0, Math.min(maxSpeedometerValue, speedValue));
+        
+        // Ahora, 0 km/h -> 0° de rotación (aguja apuntando a la izquierda) y
+        // 100 km/h -> 180° (aguja apuntando a la derecha)
+        const angle = (clampedSpeed / maxSpeedometerValue) * angleRange;
+        needle.setAttribute("transform", `rotate(${angle}, 100, 100)`);
+        
+        speedValueText.textContent = `${Math.round(clampedSpeed)} km/h`;
+    }
     
     
             // --- Lógica de FETCH para obtener la velocidad del API ---
