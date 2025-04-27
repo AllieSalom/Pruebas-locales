@@ -60,26 +60,31 @@ document.addEventListener('DOMContentLoaded', function() {
     
         // --- Añadir estilos CSS dinámicamente (si no existen) ---
         // Esto evita duplicar estilos si tienes varios scripts de gráficos
-         if (!document.querySelector('style[data-circle-progress-styles]')) {
-             const styles = document.createElement('style');
-             styles.setAttribute('data-circle-progress-styles', ''); // Marca para identificar
-              styles.innerHTML = `
-                     .speedometer-container {
-                         /* ... otros estilos ... */
-                     }
-                     .speedometer-tick-label, .speedometer-value-text {
-                         fill: #ffffff; /* Color del texto de ticks y valor (fallback) */
-                         font-family: monospace;
-                     }
-                      .speedometer-value-text {
-                          font-size: 16px;
-                          font-weight: bold;
-                         fill: white !important; /* <--- AÑADIMOS !important AQUÍ */
-                         /* fill: #ffffff; This line is redundant and can be removed */
-                      }
-                 `;
-             document.head.appendChild(styles);
-         }
+        if (!document.querySelector('style[data-circle-progress-styles]')) {
+            const styles = document.createElement('style');
+            styles.setAttribute('data-circle-progress-styles', '');
+            styles.innerHTML = `
+                .circle-progress-container {
+                    position: relative;
+                    width: 120px;
+                    height: 120px;
+                }
+                .circle-progress-container svg {
+                    display: block;
+                }
+                .progress-percent {
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    font-family: 'Press Start 2P', cursive;
+                    font-size: 30px;
+                    font-weight: bold;
+                    color: #ffffff;
+                }
+            `;
+            document.head.appendChild(styles);
+        }
     
         // --- Función para actualizar la apariencia visual del círculo ---
         // Esta función recibe el porcentaje (espera un número de 0 a 100)

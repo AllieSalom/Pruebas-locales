@@ -176,8 +176,8 @@ document.addEventListener('DOMContentLoaded', function() {
             .speedometer-value-text {
                 fill: #ffffff;
                 color: #ffffff;
-                font-family: monospace;
-                font-size: 16px;
+                font-family: 'Press Start 2P', cursive;
+                font-size: 13px;
                 font-weight: bold;
             }
         `;
